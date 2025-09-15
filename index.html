@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mon Super Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Sofia&display=swap" rel="stylesheet">
+<!--    <link rel="stylesheet" href="style.css">-->
+    <style>
+        body {
+            min-height: 100vh;
+            padding: 24px;
+            margin: 0;
+        }
+
+        .container {
+            position: relative;
+            background: #fff;
+            padding: 28px 32px;
+            border-radius: 18px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        }
+
+        .container::before,
+        .container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        .container::before {
+            border: 3px solid #3a86ff;
+            inset: -6px;
+            filter: drop-shadow(0 0 1px rgba(58, 134, 255, 0.25));
+        }
+
+        .container::after {
+            border: 3px solid #ff4fa3;
+            inset: -12px;
+            filter: drop-shadow(0 0 1px rgba(255, 79, 163, 0.25));
+        }
+
+        .titre-site {
+            font-family: "Sofia", cursive;
+            font-weight: 400;
+            font-style: normal;
+            display: inline-block;
+            position: relative;
+            font-size: 2.6rem;
+            letter-spacing: 0.01em;
+            opacity: 0;
+            animation: apparitionTexte 1.2s ease forwards;
+            padding-bottom: 52px;
+
+        }
+
+        .underline {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 52px;
+            overflow: visible;
+            pointer-events: none;
+        }
+
+        .thread {
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 3.2;
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.12)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.12));
+        }
+
+        .rose {
+            stroke: #ff4fa3;
+        }
+
+        .bleue {
+            stroke: #3a86ff;
+        }
+
+        .animate-blue {
+            animation: draw 3.2s ease-in-out 0.3s forwards;
+        }
+
+        .animate-rose {
+            animation: draw 3.6s ease-in-out 3.7s forwards, fadeIn 0.2s linear 3.7s forwards;
+        }
+
+        .hide-before {
+            opacity: 0;
+        }
+
+        @keyframes apparitionTexte {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .weave-mask-path {
+            fill: none;
+            stroke: #fff;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 5.2;
+            stroke-dasharray: 0.085 0.085;
+        }
+
+        .creatives-grid {
+            display: grid;
+            grid-gap: 1rem;
+            grid-template-columns:repeat(2, 1fr);
+            justify-items: center;
+
+
+
+            & .creatives-grid__item {
+                background-repeat: no-repeat;
+                background-size: cover;
+                width: 100%;
+                height: 350px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 6px;
+                position: relative;
+                overflow: hidden;
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.7);
+                    transition: all 1s ease;
+                }
+                &:hover {
+                    cursor: pointer;
+
+                    &:after {
+                        background: transparent;
+                        transition: all 1s ease;
+                    }
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div>
+        <h1 class="titre-site">
+            Mon Super Site
+            <svg class="underline" viewBox="0 0 280 52" preserveAspectRatio="none" aria-hidden="true">
+                <!-- Masque pour les segments du fil rose qui passent AU-DESSUS du bleu -->
+                <defs>
+                    <mask id="mask-rose-over" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0"
+                          width="280" height="52">
+                        <!-- Même trajet que le fil rose, segmenté en bandes blanches régulières -->
+                        <path class="weave-mask-path" pathLength="1"
+                              d="M 6,32
+                   C 32,20  60,42  86,30
+                   S 138,18 164,30
+                   S 216,42 242,30
+                   c  9,-3  18,4  22,12
+                   c  2.2,3.6  -1.2,6.2  -4.2,4.2
+                   c -3.0,-2.0 -6.0,-5.2 -9.0,-8.2"/>
+                    </mask>
+                </defs>
+
+                <!-- Fil ROSE sous le bleu: même chemin, invisible jusqu'au début de son animation -->
+                <path id="rose-under" class="thread rose animate-rose hide-before" pathLength="1"
+                      d="M 6,32
+               C 32,20  60,42  86,30
+               S 138,18 164,30
+               S 216,42 242,30
+               c  9,-3  18,4  22,12
+               c  2.2,3.6  -1.2,6.2  -4.2,4.2
+               c -3.0,-2.0 -6.0,-5.2 -9.0,-8.2"/>
+
+                <!-- Fil BLEU: se dessine en premier -->
+                <path id="blue" class="thread bleue animate-blue" pathLength="1"
+                      d="M 6,30
+               C 32,42  60,20  86,32
+               S 138,44 164,32
+               S 216,20 242,32
+               c  9,3   18,-4  22,-12
+               c  2.2,-3.6  -1.2,-6.2  -4.2,-4.2
+               c -3.0,2.0  -6.0,5.2  -9.0,8.2"/>
+
+                <!-- Fil ROSE au-dessus: même chemin, rendu uniquement par segments "au-dessus" via le masque -->
+                <path id="rose-over" class="thread rose animate-rose hide-before" pathLength="1"
+                      mask="url(#mask-rose-over)"
+                      d="M 6,32
+               C 32,20  60,42  86,30
+               S 138,18 164,30
+               S 216,42 242,30
+               c  9,-3  18,4  22,12
+               c  2.2,3.6  -1.2,6.2  -4.2,4.2
+               c -3.0,-2.0 -6.0,-5.2 -9.0,-8.2"/>
+            </svg>
+        </h1>
+        <p>Bienvenue sur mon site. Ces bords bleus et roses reprennent l’esthétique des fils sous le titre.</p>
+    </div>
+    <div class="creatives-grid">
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+        <div class="creatives-grid__item" style="background-image:url('https://picsum.photos/800/600')"></div>
+    </div>
+</div>
+</body>
+</html>
